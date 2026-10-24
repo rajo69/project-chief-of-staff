@@ -3,8 +3,9 @@
 One JSON file describes the whole project. `scaffold.py preview` validates it and prints the one-screen preview;
 `scaffold.py build` generates everything from it. A full worked example is `example-plan-phd.json`.
 
-Write the plan to `.claude/setup-plan.json` inside the target folder (a tooling folder, so the root stays clean).
-After a successful build the script moves it to `00_hub/setup-plan.json`.
+Write the plan to `setup-plan.json` in the target folder. The empty-folder check ignores it, and after a successful
+build the script moves it to `00_hub/setup-plan.json`. Don't put it in `.claude/`: Claude Code asks before every
+write there.
 
 Everything the plan says ends up in files other people may read, and the skill is user-agnostic: **no personal data,
 no names, no machine-specific paths**. Describe roles and folders generically ("the user's documents, as imported by

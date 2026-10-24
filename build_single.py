@@ -179,15 +179,21 @@ def test():
         shutil.copy(OUT, skill_dir / "SKILL.md")
         a, b = tmp / "folder-edition", tmp / "single-edition"
         for t in (a, b):
-            (t / ".claude").mkdir(parents=True)
-            (t / ".claude" / "setup-plan.json").write_bytes(plan)
+            t.mkdir(parents=True)
+
+        def steps(target, cmds):
+            # The order the skill follows: probe the empty folder, write the plan, preview, build.
+            outs = [run(cmds[0], target, skill_dir)]
+            (target / "setup-plan.json").write_bytes(plan)
+            return outs + [run(c, target, skill_dir) for c in cmds[1:]]
 
         scaffold = f'PY "{(SKILL / "scripts" / "scaffold.py").as_posix()}"'
-        folder_cmds = [c.replace(f"PY {UNPACK}/scripts/scaffold.py", scaffold) for c in (probe, preview, build_)]
-        outs_a = [run(c, a, skill_dir) for c in folder_cmds]
+        outs_a = steps(a, [c.replace(f"PY {UNPACK}/scripts/scaffold.py", scaffold) for c in (probe, preview, build_)])
 
         print("test: " + run(unpack, b, skill_dir).strip())
-        outs_b = [run(c, b, skill_dir) for c in (probe, preview, build_)]
+        outs_b = steps(b, [probe, preview, build_])
+        if (a / "setup-plan.json").exists() or (b / "setup-plan.json").exists():
+            sys.exit("test: the build left setup-plan.json at the project root")
         if not json.loads(outs_b[0]).get("empty"):
             sys.exit(f"test: probe doesn't see the target as empty after unpacking:\n{outs_b[0]}")
         print("test: " + run("PY tools/check_structure.py", b, skill_dir).strip().splitlines()[-1])

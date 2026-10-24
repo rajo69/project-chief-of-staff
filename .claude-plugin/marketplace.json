@@ -9,7 +9,7 @@
       "source": "./",
       "displayName": "Project Chief of Staff",
       "description": "Turn an empty folder into a persistent Claude Code project for any purpose: numbered folders, a tracker and task board, a Chief-of-Staff main session with a specialist agent team, handoffs, decision and lesson logs, hooks, and model tiers under a cap.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": { "name": "Rajarshi Nandi" },
       "homepage": "https://github.com/rajo69/project-chief-of-staff",
       "repository": "https://github.com/rajo69/project-chief-of-staff",

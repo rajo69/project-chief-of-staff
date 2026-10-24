@@ -63,8 +63,8 @@ _archive/  _bin/      snapshots and discarded files (nothing is deleted)
 So you can judge it before installing:
 
 - **During setup**, Claude runs the bundled script `skills/project-chief-of-staff/scripts/scaffold.py` with your local
-  Python. It writes only inside the current folder and never overwrites a file. Apart from its working plan in
-  `.claude/`, it writes nothing until you approve the preview. If the folder isn't empty, it stops and asks.
+  Python. It writes only inside the current folder and never overwrites a file. Apart from its working plan
+  (`setup-plan.json`, moved into `00_hub/` by the build), it writes nothing until you approve the preview. If the folder isn't empty, it stops and asks.
 - **Your files elsewhere** are read only if you type their paths, and copied in only item by item with your approval.
   Originals are never moved or changed.
 - **The generated project** gets `.claude/settings.json` with four hooks. Each runs a Python script from the project's

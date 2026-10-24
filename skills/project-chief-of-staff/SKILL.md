@@ -72,7 +72,8 @@ format. `references/example-plan-phd.json` is a complete worked example. Design:
   investors' own sites). The source check hook watches those folders.
 - **HANDOFF content:** what only the user can do next, and the first 3–5 actions for the next session.
 
-Write the plan to `.claude/setup-plan.json`.
+Write the plan to `setup-plan.json` in the target folder, not in `.claude/` (Claude Code asks before every write
+there). The build moves it to `00_hub/setup-plan.json`.
 
 ### Second pass: review the whole design before showing it
 
@@ -89,7 +90,7 @@ Read the plan again as a sceptical expert in this purpose would, and fix what yo
 ## 5. Preview and one yes
 
 ```
-PY "${CLAUDE_SKILL_DIR}/scripts/scaffold.py" preview --plan .claude/setup-plan.json --target .
+PY "${CLAUDE_SKILL_DIR}/scripts/scaffold.py" preview --plan setup-plan.json --target .
 ```
 Fix any `PLAN ERROR`. Show the preview to the user verbatim in a code block, then ask once: **Create it** /
 **Change something**. On changes, edit the plan, re-run the preview and ask again. Don't create anything until the yes.
@@ -97,7 +98,7 @@ Fix any `PLAN ERROR`. Show the preview to the user verbatim in a code block, the
 ## 6. Build
 
 ```
-PY "${CLAUDE_SKILL_DIR}/scripts/scaffold.py" build --plan .claude/setup-plan.json --target .
+PY "${CLAUDE_SKILL_DIR}/scripts/scaffold.py" build --plan setup-plan.json --target .
 ```
 This writes everything: `CLAUDE.md` (rules, filing table, tracker, model policy, writing and replies, sources, access
 boundary), `README.md`, `00_hub/` (HANDOFF, handoffs/, decisions, lessons, activity log, team charter, writing-style,

@@ -757,14 +757,17 @@ def plan_files(plan, env):
     return files
 
 
-def build(plan, target, allow_existing):
+def build(plan, target, allow_existing, plan_path=None):
     env = probe(target)
     if not env["exists"]:
         Path(target).mkdir(parents=True)
         env = probe(target)
     env["slug"] = slugify(plan["project"]["title"])
-    if not env["empty"] and not allow_existing:
-        raise PlanError("target is not empty: " + ", ".join(env["non_tooling_entries"][:10])
+    # The plan itself may sit in the target root (it moves to 00_hub/ after the build); it doesn't make the folder non-empty.
+    content = [e for e in env["non_tooling_entries"]
+               if not (plan_path and plan_path.parent == Path(env["target"]) and e == plan_path.name)]
+    if content and not allow_existing:
+        raise PlanError("target is not empty: " + ", ".join(content[:10])
                         + ". Ask the user; rerun with --allow-existing only if they agree.")
     root = Path(env["target"])
     files = plan_files(plan, env)
@@ -842,9 +845,9 @@ def main():
             env = probe(args.target)
             print(preview(plan, env, warnings))
             return
-        env, w, git_note = build(plan, args.target, args.allow_existing)
         plan_path = Path(os.path.abspath(args.plan))
-        if plan_path.parent == Path(env["target"]) / ".claude":
+        env, w, git_note = build(plan, args.target, args.allow_existing, plan_path)
+        if plan_path.parent in (Path(env["target"]), Path(env["target"]) / ".claude"):
             plan_path.unlink()  # its copy now lives in 00_hub/setup-plan.json
         print(f"built {len(w.written)} files in {env['target']} (hooks run: {env['python']})")
         if w.skipped:
