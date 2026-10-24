@@ -27,7 +27,7 @@ Then open Claude Code in an empty folder and run `/project-chief-of-staff <purpo
 | Path | What it is |
 |---|---|
 | `.claude-plugin/marketplace.json` | The marketplace, with one plugin |
-| `plugins/project-chief-of-staff/` | The plugin: the skill, its README and licence, and the listing icon. This folder is all that gets installed |
+| `plugins/project-chief-of-staff/` | The plugin: its manifest and listing icon in `.claude-plugin/`, the skill, its README and licence. This folder is all that gets installed |
 | `evals/` | Three test cases for `claude plugin eval`: an open source project, a seed round, and a folder that isn't empty |
 | `build_single.py` | Builds `dist/project-chief-of-staff/SKILL.md`, the single-file edition attached to each release, and tests it |
 | `assets/icon.svg` | Source of the icon |

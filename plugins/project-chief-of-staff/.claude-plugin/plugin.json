@@ -1,0 +1,14 @@
+{
+  "name": "project-chief-of-staff",
+  "displayName": "Project Chief of Staff",
+  "version": "0.2.0",
+  "description": "Turn an empty folder into a persistent Claude Code project for any purpose: numbered folders, a tracker and task board, a Chief-of-Staff main session with a specialist agent team, handoffs, decision and lesson logs, hooks, and model tiers under a cap.",
+  "author": { "name": "Rajarshi Nandi", "url": "https://github.com/rajo69" },
+  "homepage": "https://github.com/rajo69/project-chief-of-staff",
+  "repository": "https://github.com/rajo69/project-chief-of-staff",
+  "documentationUrl": "https://github.com/rajo69/project-chief-of-staff/blob/main/plugins/project-chief-of-staff/README.md",
+  "supportUrl": "https://github.com/rajo69/project-chief-of-staff/issues",
+  "license": "MIT",
+  "keywords": ["project-setup", "scaffold", "agents", "subagents", "workflow", "chief-of-staff"],
+  "icon": ".claude-plugin/icon.png"
+}
