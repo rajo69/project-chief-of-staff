@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: non-empty-folder
+expected_outcome: |
+  The skill notices the folder is not empty, stops before creating anything, lists what is there and asks whether to continue.
+context:
+  scaffold_script: place-files.sh

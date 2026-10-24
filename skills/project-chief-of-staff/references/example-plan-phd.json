@@ -1,0 +1,153 @@
+{
+  "project": {
+    "title": "AI PhD & Research Roles",
+    "purpose": "getting into an AI PhD or AI research role",
+    "objective": "Get the user into an AI PhD or research role, through to interviews.",
+    "flow": "discover → analyse → contact → prepare → submit → interview"
+  },
+  "models": { "cap": "fable", "main_session": null },
+  "folders": [
+    { "name": "01_profile", "holds": "The user's details and documents, as imported by the user", "owner": "chief-of-staff" },
+    { "name": "02_research", "holds": "General knowledge about getting in, independent of any one opportunity; research-brief.md and evidence-log.md", "owner": "research-lead" },
+    { "name": "03_discovery", "holds": "sources.md (where we search) and searches/ (a dated log of each search sweep)", "owner": "opportunity-scout" },
+    { "name": "04_entities", "holds": "Reusable dossiers: institutions/, programs/, people/, funders/", "owner": "intel-analyst" },
+    { "name": "05_materials", "holds": "Master materials: CV, statements, proposals, answer bank, referees, writing samples", "owner": "materials-writer" },
+    { "name": "06_outreach", "holds": "Message templates, outreach-log.csv and networking/ (contact not tied to one opportunity)", "owner": "outreach-lead" },
+    { "name": "07_opportunities", "holds": "One folder per shortlisted opportunity, holding everything specific to it" },
+    { "name": "08_interviews", "holds": "General interview prep (one interview's prep goes in its opportunity folder)", "owner": "interview-coach" },
+    { "name": "09_admin", "holds": "Language tests, degree recognition, visas, fees, portal accounts (no passwords)", "owner": "operations-lead" }
+  ],
+  "filing_rule": "Decision rule: *is it about one opportunity?* → its `07_opportunities/` folder. *Is it reusable?* → `04_entities/` (a who or what), `05_materials/` (something we send) or `02_research/` (something we learned).",
+  "tracker": {
+    "name": "pipeline",
+    "item": "opportunity",
+    "types": { "PHD": "PhD position", "RES": "research role", "FEL": "fellowship or scholarship", "INT": "internship" },
+    "statuses": ["lead", "shortlisted", "contacting", "preparing", "ready", "submitted", "interviewing", "offer", "accepted", "declined", "rejected", "withdrawn", "dropped"],
+    "terminal": ["accepted", "declined", "rejected", "withdrawn", "dropped"],
+    "start_status": "lead",
+    "promoted_status": "shortlisted",
+    "folder_dir": "07_opportunities",
+    "columns": [
+      { "name": "institution" },
+      { "name": "pi" },
+      { "name": "country", "kind": "upper" },
+      { "name": "intake" },
+      { "name": "deadline", "kind": "date" },
+      { "name": "funding" },
+      { "name": "fit", "kind": "enum", "values": ["", "1", "2", "3", "4", "5"] },
+      { "name": "source_url", "kind": "url" }
+    ],
+    "folder_fields": ["institution", "title"],
+    "dedupe_fields": ["institution", "title"],
+    "url_field": "source_url",
+    "list_fields": ["institution", "deadline"],
+    "item_subdirs": ["sources", "outreach", "materials", "submission", "interview"],
+    "card_sections": [
+      { "heading": "Summary", "hint": "One paragraph: what the position is, who funds it, why it is (or isn't) a fit." },
+      { "heading": "Key facts", "hint": "Deadline, required documents, eligibility gates, contract or stipend, start date. Official sources only; cite the file in sources/ or the URL." },
+      { "heading": "Analysis", "hint": "Criteria verbatim from the advert; evidence against each from 01_profile/; red flags; angle; verdict and fit 1-5." }
+    ],
+    "notes": "`ready` means filled in and handed back for the user to submit. The user always presses submit."
+  },
+  "agents": [
+    {
+      "name": "research-lead", "role": "Head of Research", "tier": "deep",
+      "description": "Head of Research. Use for deep research on how to get into AI PhDs and research roles: selection criteria, country systems, funding and eligibility, base rates, field strategy.",
+      "mission": "Your job is evidence the team can act on, not volume.",
+      "tools": ["WebSearch", "WebFetch", "Bash"], "owns": ["02_research/"],
+      "jobs": "Deep research on admissions, countries, funding, base rates; keeps evidence-log.md",
+      "standards": [
+        "Anything that drives an action (a date, an eligibility rule, a required document) needs a primary source. Record it in `02_research/evidence-log.md` with the URL and date checked.",
+        "Secondary sources (surveys, guides, forums) can raise hypotheses. Say so when that is all you have."
+      ],
+      "memory_focus": "which sources are reliable or blocked, search strategies that worked"
+    },
+    {
+      "name": "opportunity-scout", "role": "Head of Discovery", "tier": "routine",
+      "description": "Head of Discovery. Use to sweep sources for new PhD positions, research roles, fellowships and internships, log every search, and add leads to the tracker.",
+      "mission": "You find opportunities early and log every search so nothing is swept twice.",
+      "tools": ["WebSearch", "WebFetch", "Bash"], "owns": ["03_discovery/", "new tracker rows (add only)"],
+      "jobs": "Sweeps sources, logs every search, adds leads",
+      "steps": ["Log each sweep in `03_discovery/searches/YYYY-MM-DD_<source>.md`: queries, filters, hits, what was added."],
+      "standards": ["Add leads only with `tools/tracker.py add`; never promote or change status."],
+      "memory_focus": "which job boards and lab pages are productive, query patterns that work"
+    },
+    {
+      "name": "intel-analyst", "role": "Head of Intelligence", "tier": "deep",
+      "description": "Head of Intelligence. Use for dossiers on institutions, programmes, supervisors and funders, and for fit analysis and go/no-go recommendations on shortlisted opportunities.",
+      "mission": "You turn a lead into a decision: who they are, what they want, and whether the user fits.",
+      "tools": ["WebSearch", "WebFetch", "Bash"], "owns": ["04_entities/", "07_opportunities/<id>/item.md", "07_opportunities/<id>/sources/"],
+      "jobs": "Dossiers; fit analysis; go/no-go recommendations"
+    },
+    {
+      "name": "outreach-lead", "role": "Head of Communications", "tier": "deep",
+      "description": "Head of Communications and Positioning. Use for the user's narrative and for drafting cold emails, follow-ups and referee requests (drafts only).",
+      "mission": "You write messages a busy academic will actually read and answer.",
+      "tools": ["WebSearch", "WebFetch"], "owns": ["06_outreach/", "07_opportunities/<id>/outreach/"],
+      "jobs": "Positioning; cold emails, follow-ups, referee requests (drafts only)",
+      "standards": ["Log every draft in `06_outreach/outreach-log.csv`."]
+    },
+    {
+      "name": "materials-writer", "role": "Head of Application Content", "tier": "deep",
+      "description": "Head of Application Content. Use for CVs, statements, research proposals, the answer bank, and tailoring them to one opportunity.",
+      "mission": "You write application documents that are true, specific and tailored.",
+      "owns": ["05_materials/", "07_opportunities/<id>/materials/"],
+      "jobs": "CV, statements, proposals, answer bank, tailoring",
+      "standards": ["Every claim about the user traces to a file in `01_profile/`. A missing fact is reported, never invented."]
+    },
+    {
+      "name": "operations-lead", "role": "Chief of Operations", "tier": "standard",
+      "description": "Chief of Operations. Use for application logistics: portal forms up to the final review page (never submitting), deadlines, required documents, tests, fees, accounts, tracker status updates.",
+      "mission": "You make sure nothing is missed, late or wrong on a form.",
+      "tools": ["WebSearch", "WebFetch", "Bash"], "owns": ["09_admin/", "07_opportunities/<id>/submission/", "tracker status updates"],
+      "jobs": "Portals and forms up to ready (never submits), deadlines, documents, fees",
+      "never": ["Never click a final submit button, pay a fee or tick a consent box the brief doesn't authorise."]
+    },
+    {
+      "name": "interview-coach", "role": "Interview Coach", "tier": "standard",
+      "description": "Interview Coach. Use for interview preparation, mock questions and debriefs.",
+      "mission": "You get the user ready for the conversation that decides the outcome.",
+      "tools": ["WebSearch", "WebFetch"], "owns": ["08_interviews/", "07_opportunities/<id>/interview/"],
+      "jobs": "Interview prep, mock questions, debriefs"
+    }
+  ],
+  "reviewer": {
+    "tier": "deep",
+    "checks": ["**Fit to the opportunity:** every essential criterion in the advert is addressed or the gap is declared."]
+  },
+  "writing": {
+    "outgoing": ["05_materials/", "06_outreach/", "07_opportunities/*/outreach/", "07_opportunities/*/materials/", "07_opportunities/*/submission/"],
+    "kinds": "emails, messages, statements, CVs, proposals and form answers",
+    "recipients": "a busy supervisor, an admissions committee, a recruiter",
+    "concrete": "named methods, datasets, results with baselines, dates, places"
+  },
+  "sources": {
+    "research": ["02_research/", "03_discovery/", "04_entities/", "08_interviews/", "09_admin/", "07_opportunities/*/item.md", "07_opportunities/*/sources/", "07_opportunities/*/interview/"],
+    "needs_sources": ["04_entities/*/*.md", "07_opportunities/*/item.md"],
+    "scope": "research, discovery, dossiers, fit analysis, admin facts, interview prep, and facts about a recipient in outreach",
+    "capture": "`02_research/_raw-captures/` or the opportunity's `sources/`",
+    "extra_low_domains": ["thegradcafe.com"],
+    "tiers": {
+      "T1": "The institution, programme, funder or government in its own words (official pages, calls, regulations, handbooks); the supervisor's own lab or university page; peer-reviewed papers and their official venue pages; official statistics",
+      "T2": "Established job boards and portals that republish adverts (they link back to the original), recognised professional bodies, established news outlets, university-run guidance, well-cited preprints",
+      "T3": "Forums (Reddit, GradCafe, Quora), personal blogs, Medium or Substack posts, social media, video, wikis, SEO listicles, content farms"
+    }
+  },
+  "flows": ["opportunity-scout → intel-analyst → (outreach-lead ∥ materials-writer) → red-team-reviewer → operations-lead"],
+  "extras": { "playwright": true, "git": false },
+  "gitignore": ["01_profile/documents/**", "!01_profile/documents/**/", "!01_profile/documents/**/.gitkeep"],
+  "waiting_on_user": [
+    "Import their details and documents into `01_profile/`.",
+    "Decide the scope: countries, intake year, fields, funded-only or not (record in `00_hub/decisions.md`).",
+    "Agree the research brief: which questions, in what order (`02_research/research-brief.md`)."
+  ],
+  "first_steps": [
+    "CoS: agree the research brief with the user, then split it into tasks for `research-lead`.",
+    "CoS: set up `03_discovery/sources.md` with the user, then brief `opportunity-scout` for a first sweep.",
+    "CoS: promote the strongest leads, then brief `intel-analyst` for deep dives."
+  ],
+  "files": [
+    { "path": "04_entities/_templates/person.md", "content": "# <Full name: confirmed spelling, or UNCONFIRMED>\n\n- **Role / title:**\n- **Affiliation:**\n- **Public contact:** (official page only)\n- **Last verified:** YYYY-MM-DD\n\n## Research\n\n## How they recruit\n\n## Signals and red flags\n\n## Interaction history\n| Date | Channel | Direction | Summary | File |\n|---|---|---|---|---|\n" },
+    { "path": "06_outreach/outreach-log.csv", "content": "date,item_id,person,person_role,channel,direction,subject,status,follow_up_due,file,notes\n" }
+  ]
+}

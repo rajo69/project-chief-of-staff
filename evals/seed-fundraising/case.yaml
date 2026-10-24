@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: seed-fundraising
+expected_outcome: |
+  An organised project fitted to a seed round: folders for narrative, investors, data room, finance; an investor-pipeline tracker with fundraising statuses; a team with Fable-led model tiers; hooks and handoff skill; a brief final reply.

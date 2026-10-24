@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: open-source-project
+expected_outcome: |
+  An organised project fitted to an open source CLI: numbered domain folders such as design, code, docs, community and releases; a roadmap-style tracker; a specialist team with Opus-cap models; hooks, handoff skill, git initialised; a brief final reply that says to restart the session.

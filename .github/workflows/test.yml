@@ -1,0 +1,30 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.9", "3.13"]
+        exclude:
+          - os: macos-latest
+            python: "3.9"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      # Builds the example plan with the folder edition and the single-file edition, checks the generated
+      # project with its own structure check, and requires both editions to produce identical files.
+      - run: python build_single.py
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.13'
+        with:
+          name: single-file-SKILL
+          path: dist/project-chief-of-staff/SKILL.md
