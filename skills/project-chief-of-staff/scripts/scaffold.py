@@ -654,7 +654,7 @@ class Writer:
             self.skipped.append(rel)
             return
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(text, encoding="utf-8", newline="\n")
+        dest.write_bytes(text.encode("utf-8"))  # LF on every OS (write_text's newline= needs Python 3.10)
         self.written.append(rel)
 
     def copy(self, rel, src):
@@ -781,7 +781,7 @@ def build(plan, target, allow_existing):
     if settings_path.exists():
         existing = json.loads(settings_path.read_text(encoding="utf-8") or "{}")
     settings_path.parent.mkdir(parents=True, exist_ok=True)
-    settings_path.write_text(settings(plan, env, existing), encoding="utf-8", newline="\n")
+    settings_path.write_bytes(settings(plan, env, existing).encode("utf-8"))
     w.written.append(".claude/settings.json" + (" (merged)" if existing else ""))
     for im in plan["imports"]:
         src = Path(im["from"])
