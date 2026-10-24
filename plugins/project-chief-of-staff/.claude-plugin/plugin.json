@@ -8,6 +8,7 @@
   "repository": "https://github.com/rajo69/project-chief-of-staff",
   "documentationUrl": "https://github.com/rajo69/project-chief-of-staff/blob/main/plugins/project-chief-of-staff/README.md",
   "supportUrl": "https://github.com/rajo69/project-chief-of-staff/issues",
+  "privacyPolicyUrl": "https://github.com/rajo69/project-chief-of-staff/blob/main/plugins/project-chief-of-staff/PRIVACY.md",
   "license": "MIT",
   "keywords": ["project-setup", "scaffold", "agents", "subagents", "workflow", "chief-of-staff"],
   "icon": ".claude-plugin/icon.png"

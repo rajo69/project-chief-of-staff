@@ -83,6 +83,8 @@ So you can judge it before installing:
   installs none of them unless you say yes to each one.
 - No telemetry, and no permission settings are changed.
 
+[Privacy](PRIVACY.md) says the same in policy form.
+
 ## Source
 
 [github.com/rajo69/project-chief-of-staff](https://github.com/rajo69/project-chief-of-staff) holds the source, the
