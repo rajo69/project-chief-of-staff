@@ -398,10 +398,11 @@ def render_claude_md(plan, env):
         s = env["slug"]
         extra += ("\n## 10. Browser tooling\n\n**Playwright CLI** (installed locally in `node_modules/`). Use one named, "
                   "headed, persistent session:\n```\n"
-                  f"npx playwright-cli -s={s} open <url> --headed --profile=.playwright/profile-{s}\n"
-                  f"npx playwright-cli -s={s} goto <url>      # then snapshot / click / fill\n"
-                  f"npx playwright-cli -s={s} close\n```\n"
-                  "Run `npx playwright-cli --help` if a flag has changed. The profile keeps logins between sessions "
+                  f"npx --no playwright-cli -s={s} open <url> --headed --profile=.playwright/profile-{s}\n"
+                  f"npx --no playwright-cli -s={s} goto <url>      # then snapshot / click / fill\n"
+                  f"npx --no playwright-cli -s={s} close\n```\n"
+                  "Run `npx --no playwright-cli --help` if a flag has changed. `--no` runs only the locally installed "
+                  "copy and never downloads one. The profile keeps logins between sessions "
                   "and is gitignored. CAPTCHAs, logins and payments: hand over to the user.\n")
     for sec in plan.get("claude_md_sections", []):
         extra += f"\n## {sec['heading']}\n\n{sec['body'].strip()}\n"

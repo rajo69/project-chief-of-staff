@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#24365F"/>
+      <stop offset="1" stop-color="#16223F"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.28" cy="0.22" r="0.75">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="drop" x="-20%" y="-20%" width="140%" height="150%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="22"/>
+      <feOffset dy="22"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.38"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="lift" x="-10%" y="-20%" width="120%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dy="-6"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.22"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#glow)"/>
+
+  <g transform="translate(512 518) scale(1.2) translate(-512 -512)">
+  <g filter="url(#drop)">
+    <!-- back panel with tab -->
+    <path d="M252 276 H392 Q420 276 436 298 L466 340 H772 Q812 340 812 380 V708 Q812 748 772 748 H252 Q212 748 212 708 V316 Q212 276 252 276 Z"
+          fill="#D8CFBE"/>
+    <!-- front panel -->
+    <rect x="212" y="392" width="600" height="356" rx="40" fill="#F7F2E8" filter="url(#lift)"/>
+  </g>
+
+  <!-- team: one lead, three specialists -->
+  <g stroke="#1C2B4D" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M512 532 V574"/>
+    <path d="M382 612 V600 Q382 574 408 574 H616 Q642 574 642 600 V612"/>
+    <path d="M512 574 V612"/>
+  </g>
+  <circle cx="512" cy="494" r="44" fill="#F2A93B"/>
+  <circle cx="382" cy="652" r="34" fill="#1C2B4D"/>
+  <circle cx="512" cy="652" r="34" fill="#1C2B4D"/>
+  <circle cx="642" cy="652" r="34" fill="#1C2B4D"/>
+  </g>
+</svg>

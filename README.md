@@ -1,94 +1,46 @@
 # Project Chief of Staff
 
+<img src="assets/icon.svg" alt="" width="96" align="right">
+
 A Claude Code plugin that turns an empty folder into a long-running project, set up for whatever you're working on:
 an open source tool, a seed round, a PhD, a book, a job search. You state the purpose in a few words, answer one round
-of questions, approve a one-screen preview, and the folder is ready.
+of questions, approve a one-screen preview, and the folder is ready. From then on, every session in that folder starts
+where the last one stopped, with the main session acting as your Chief of Staff over a team of specialist subagents.
 
-From then on, every Claude Code session in that folder starts where the last one stopped. The main session acts as
-your Chief of Staff: it keeps the state, decides what to delegate, and hands work to a team of specialist subagents
-designed for your purpose.
-
-**Works in:** Claude Code (terminal, IDE extensions, and the desktop app's Code tab). It doesn't work in claude.ai chat,
-which has no project folder to set up. **Needs:** Python 3.9 or later.
+**The plugin's own README, with what it builds and everything it runs and writes, is
+[plugins/project-chief-of-staff/README.md](plugins/project-chief-of-staff/README.md).**
 
 ## Install
 
-In a Claude Code session (v2.1.275 or later):
-
-```
-/plugin install project-chief-of-staff --marketplace rajo69/project-chief-of-staff
-```
-
-Or in two steps, on any version:
+In a Claude Code session:
 
 ```
 /plugin marketplace add rajo69/project-chief-of-staff
 /plugin install project-chief-of-staff@project-chief-of-staff
 ```
 
-Without the plugin system, copy `skills/project-chief-of-staff/` into `~/.claude/skills/`. Each
-[release](https://github.com/rajo69/project-chief-of-staff/releases) also has a single-file `SKILL.md` with the scripts
-embedded, for places where one file is easier to handle. It puts about 40,000–55,000 tokens into context on every
-run, while the folder version reads its reference files only when it needs them, so prefer the folder.
+Then open Claude Code in an empty folder and run `/project-chief-of-staff <purpose>`, for example
+`/project-chief-of-staff an open source CLI tool`. It works in Claude Code only and needs Python 3.9 or later.
 
-## Use
+## This repository
 
-Open Claude Code in an empty folder and run:
-
-```
-/project-chief-of-staff an open source CLI tool
-```
-
-Claude asks which model tier you have (Fable-led, Opus cap or Sonnet cap), whether you want `git init` or the
-Playwright CLI, and whether you have existing material to bring in. It then designs the project and shows a preview.
-Nothing is written until you say yes. After the build, restart Claude Code in the folder so the hooks and agents load.
-
-## What you get
-
-```
-CLAUDE.md             rules: filing table, tracker, model policy, writing norm, sources, access boundary
-README.md             the map for people
-00_hub/               HANDOFF, handoffs/, decisions, lessons, activity log, team charter, writing style,
-                      source policy, the tracker CSV, project.config.json, tasks/board.csv
-01_… to 09_…          domain folders named in your field's own vocabulary
-tools/                tracker, task board, structure check, session brief, model-cap guard, style lint, source check
-.claude/agents/       4–8 specialists plus a red-team reviewer, each with a model tier under your cap
-.claude/skills/       /handoff, for ending a session cleanly
-.claude/settings.json the hooks listed below
-_archive/  _bin/      snapshots and discarded files (nothing is deleted)
-```
-
-## What it runs and writes
-
-So you can judge it before installing:
-
-- **During setup**, Claude runs the bundled script `skills/project-chief-of-staff/scripts/scaffold.py` with your local
-  Python. It writes only inside the current folder and never overwrites a file. Apart from its working plan
-  (`setup-plan.json`, moved into `00_hub/` by the build), it writes nothing until you approve the preview. If the folder isn't empty, it stops and asks.
-- **Your files elsewhere** are read only if you type their paths, and copied in only item by item with your approval.
-  Originals are never moved or changed.
-- **The generated project** gets `.claude/settings.json` with four hooks. Each runs a Python script from the project's
-  own `tools/` folder:
-  - SessionStart: `session_brief.py` prints the handoff, open tasks and open tracker items into the session.
-  - PreToolUse on subagent launches: `model_cap.py` blocks a launch above your model cap.
-  - PostToolUse on Write and Edit: `style_lint.py` and `source_check.py` flag stock phrasing in outgoing text and weak
-    sources in research files. They never block.
-  - Stop: `check_structure.py` blocks ending a turn while the activity log is stale or files sit loose at the root.
-- **Network:** the plugin and the generated tools make no network requests and send no data anywhere. Two optional
-  steps use the network, and only if you choose them: `git init` (local only) and installing the Playwright CLI, which
-  runs `npm install --save-dev --save-exact @playwright/cli@<version>` in the project and fetches packages from the npm
-  registry.
-- **Recommendations:** at the end, Claude may suggest up to five skills or MCP servers that fit your purpose. It
-  installs none of them unless you say yes to each one.
-- No telemetry, and no permission settings are changed.
+| Path | What it is |
+|---|---|
+| `.claude-plugin/marketplace.json` | The marketplace, with one plugin |
+| `plugins/project-chief-of-staff/` | The plugin: the skill, its README and licence, and the listing icon. This folder is all that gets installed |
+| `evals/` | Three test cases for `claude plugin eval`: an open source project, a seed round, and a folder that isn't empty |
+| `build_single.py` | Builds `dist/project-chief-of-staff/SKILL.md`, the single-file edition attached to each release, and tests it |
+| `assets/icon.svg` | Source of the icon |
 
 ## Develop
 
-- `skills/project-chief-of-staff/` is the source. `python build_single.py` builds `dist/project-chief-of-staff/SKILL.md`
-  (the single-file edition) and tests it: it builds the example plan with both editions and requires identical output.
-  CI runs this on Linux, macOS and Windows.
-- `evals/` holds three test cases for `claude plugin eval` (an open source project, a seed round, and a folder that
-  isn't empty).
+- Edit the skill in `plugins/project-chief-of-staff/skills/project-chief-of-staff/`.
+- `python build_single.py` builds the single-file edition and tests it: it builds the example plan with both editions
+  and requires identical output. CI runs this on Linux, macOS and Windows with Python 3.9 and 3.13.
+- `claude plugin validate --strict .` checks the marketplace.
+- The evals sit outside the plugin folder so installs stay small, and `claude plugin eval <path>` only reads evals inside
+  the plugin. Run them against the installed plugin from the repository root instead:
+  `claude plugin eval project-chief-of-staff@project-chief-of-staff`.
 
 ## License
 

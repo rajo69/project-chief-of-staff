@@ -3,8 +3,9 @@
     python build_single.py            # writes dist/project-chief-of-staff/SKILL.md, then tests it
     python build_single.py --no-test  # build only
 
-The skill folder (skills/project-chief-of-staff/) is the source of truth and the main distribution. This script turns it into one
-self-extracting SKILL.md: the same instructions, with scripts/scaffold.py, templates/** and references/** embedded
+The skill folder (plugins/project-chief-of-staff/skills/project-chief-of-staff/) is the source of truth and the main
+distribution. This script turns it into one self-extracting SKILL.md: the same instructions, with scripts/scaffold.py,
+templates/** and references/** embedded
 verbatim at the end. At run time Claude unpacks them into the target's .claude/_project-chief-of-staff/ with one command and
 then runs exactly the same scaffold. Rebuild after every change to the folder; never edit the output by hand.
 
@@ -26,7 +27,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parent
-SKILL = ROOT / "skills" / "project-chief-of-staff"
+SKILL = ROOT / "plugins" / "project-chief-of-staff" / "skills" / "project-chief-of-staff"
 OUT = ROOT / "dist" / "project-chief-of-staff" / "SKILL.md"
 UNPACK = ".claude/_project-chief-of-staff"
 EMBED = ["scripts/scaffold.py", "templates", "references"]
